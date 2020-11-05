@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ProjectItem from './Project/ProjectItem';
 import CreateProjectButton from './Project/CreateProjectButton';
-import { connect } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class Dashboard extends Component {
@@ -21,11 +21,13 @@ class Dashboard extends Component {
               <h1 className="display-4 text-center">Projects</h1>
               <br />
               <CreateProjectButton />
-
               <br />
               <hr />
               {projects.map((project) => (
-                <ProjectItem key={project.id} project={project} />
+                <ProjectItem
+                  key={project.projectIdentifier}
+                  project={project}
+                />
               ))}
             </div>
           </div>
