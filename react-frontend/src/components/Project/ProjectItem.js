@@ -34,13 +34,11 @@ class ProjectItem extends Component {
                     <i className="fa fa-edit pr-1"> Update Project Info</i>
                   </li>
                 </Link>
-
                 <li
                   className="list-group-item delete"
-                  onClick={this.onDeleteClick.bind(
-                    this,
-                    project.projectIdentifier
-                  )}
+                  onClick={() => {
+                    this.onDeleteClick(project.projectIdentifier);
+                  }}
                 >
                   <i className="fa fa-minus-circle pr-1"> Delete Project</i>
                 </li>
