@@ -36,10 +36,9 @@ class ProjectItem extends Component {
                 </Link>
                 <li
                   className="list-group-item delete"
-                  onClick={this.onDeleteClick.bind(
-                    this,
-                    project.projectIdentifier
-                  )}
+                  onClick={() => {
+                    this.onDeleteClick(project.projectIdentifier);
+                  }}
                 >
                   <i className="fa fa-minus-circle pr-1"> Delete Project</i>
                 </li>
