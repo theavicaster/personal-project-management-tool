@@ -2,7 +2,8 @@ package io.agileintelligence.ppmtool.services;
 
 import io.agileintelligence.ppmtool.domain.Backlog;
 import io.agileintelligence.ppmtool.domain.Project;
-import io.agileintelligence.ppmtool.exceptions.ProjectIdException;
+import io.agileintelligence.ppmtool.exceptions.ProjectAlreadyExistsException;
+import io.agileintelligence.ppmtool.exceptions.ProjectNotFoundException;
 import io.agileintelligence.ppmtool.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ProjectService {
             backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
             return projectRepository.save(project);
         } catch (Exception e) {
-            throw new ProjectIdException(String.format("Project ID: %s already exists!", project.getProjectIdentifier().toUpperCase()));
+            throw new ProjectAlreadyExistsException(String.format("Project ID: %s already exists!", project.getProjectIdentifier().toUpperCase()));
         }
 
     }
@@ -33,10 +34,9 @@ public class ProjectService {
 
         updatedProject.setProjectIdentifier(updatedProject.getProjectIdentifier().toUpperCase());
 
-        Project oldProject = projectRepository.findByProjectIdentifier(updatedProject.getProjectIdentifier());
-        if (oldProject == null) {
-            throw new ProjectIdException(String.format("Cannot update project as Project ID: %s does not exist", updatedProject.getProjectIdentifier()));
-        }
+        // case where project to update does not exist
+        // is thrown an exception in call to find service
+        Project oldProject = findProjectByIdentifier(updatedProject.getProjectIdentifier());
 
         updatedProject.setId(oldProject.getId());
         updatedProject.setBacklog(oldProject.getBacklog());
@@ -49,7 +49,7 @@ public class ProjectService {
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
         if (project == null) {
-            throw new ProjectIdException(String.format("Project ID: %s does not exist", projectId));
+            throw new ProjectNotFoundException(String.format("Project ID: %s does not exist", projectId));
         }
 
         return project;
@@ -60,12 +60,8 @@ public class ProjectService {
     }
 
     public void deleteProjectByIdentifier(String projectId) {
-        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
-        if (project == null) {
-            throw new ProjectIdException(String.format("Cannot delete Project ID: %s as project does not exist", projectId));
-        }
-
+        Project project = findProjectByIdentifier(projectId);
         projectRepository.delete(project);
     }
 }

@@ -37,6 +37,9 @@ public class Project {
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_at;
 
+    // this is the owning side, i.e
+    // the 'backlog' object which is referencing this Project
+    // has a 'project' variable through mappedBy
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
     @JsonIgnore
     private Backlog backlog;
