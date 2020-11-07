@@ -23,4 +23,11 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ProjectNotFoundExceptionResponse exceptionResponse = new ProjectNotFoundExceptionResponse(ex.getMessage());
         return new ResponseEntity<ProjectNotFoundExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<UsernameAlreadyExistsExceptionResponse> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException ex, WebRequest req) {
+        UsernameAlreadyExistsExceptionResponse exceptionResponse = new UsernameAlreadyExistsExceptionResponse(ex.getMessage());
+        return new ResponseEntity<UsernameAlreadyExistsExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
 }
