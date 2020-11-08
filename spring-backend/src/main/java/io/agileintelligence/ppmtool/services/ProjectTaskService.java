@@ -20,14 +20,10 @@ public class ProjectTaskService {
         this.projectService = projectService;
     }
 
-    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
+    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask, String username) {
 
-        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+        Backlog backlog = projectService.findProjectByIdentifier(projectIdentifier, username).getBacklog();
         projectTask.setBacklog(backlog);
-
-        if (backlog == null) {
-            throw new ProjectNotFoundException(String.format("Project with id: %s does not exist", projectIdentifier));
-        }
 
         Integer PTSequence = backlog.getPTSequence();
         PTSequence++;
@@ -50,20 +46,18 @@ public class ProjectTaskService {
 
     }
 
-    public Iterable<ProjectTask> findBacklogByIdentifier(String projectIdentifier) {
+    public Iterable<ProjectTask> findBacklogByIdentifier(String projectIdentifier, String username) {
 
         // service handles case where project is not found
-        projectService.findProjectByIdentifier(projectIdentifier);
+        projectService.findProjectByIdentifier(projectIdentifier, username);
 
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(projectIdentifier.toUpperCase());
     }
 
-    public ProjectTask findProjectTaskBySequence(String backlog_id, String pt_id) {
+    public ProjectTask findProjectTaskBySequence(String backlog_id, String pt_id, String username) {
 
-        Backlog backlog = backlogRepository.findByProjectIdentifier(backlog_id);
-        if (backlog == null) {
-            throw new ProjectNotFoundException(String.format("Project with id: %s does not exist", backlog_id));
-        }
+        // service checks if backlog exists
+        projectService.findProjectByIdentifier(backlog_id, username);
 
         ProjectTask projectTask = projectTaskRepository.findByProjectSequence(pt_id);
         if (projectTask == null) {
@@ -78,18 +72,18 @@ public class ProjectTaskService {
 
     }
 
-    public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlog_id, String pt_id) {
+    public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlog_id, String pt_id, String username) {
 
         // service is called to check if project task exists
-        findProjectTaskBySequence(backlog_id, pt_id);
+        findProjectTaskBySequence(backlog_id, pt_id, username);
 
         return projectTaskRepository.save(updatedTask);
 
     }
 
-    public void deleteProjectTaskByProjectSequence(String backlog_id, String pt_id) {
+    public void deleteProjectTaskByProjectSequence(String backlog_id, String pt_id, String username) {
 
-        ProjectTask projectTask = findProjectTaskBySequence(backlog_id, pt_id);
+        ProjectTask projectTask = findProjectTaskBySequence(backlog_id, pt_id, username);
         projectTaskRepository.delete(projectTask);
 
     }
