@@ -1,5 +1,8 @@
 package io.agileintelligence.ppmtool.exceptions;
 
+import io.agileintelligence.ppmtool.payload.ProjectAlreadyExistsExceptionResponse;
+import io.agileintelligence.ppmtool.payload.ProjectNotFoundExceptionResponse;
+import io.agileintelligence.ppmtool.payload.UsernameAlreadyExistsExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

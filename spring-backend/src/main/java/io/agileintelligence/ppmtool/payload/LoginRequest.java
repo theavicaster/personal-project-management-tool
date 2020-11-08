@@ -1,14 +1,13 @@
-package io.agileintelligence.ppmtool.exceptions;
+package io.agileintelligence.ppmtool.payload;
 
-public class InvalidLoginResponse {
+import javax.validation.constraints.NotBlank;
 
+public class LoginRequest {
+
+    @NotBlank(message = "Username cannot be blank")
     private String username;
+    @NotBlank(message = "Password cannot be blank")
     private String password;
-
-    public InvalidLoginResponse() {
-        this.username = "Invalid Username";
-        this.password = "Invalid Password";
-    }
 
     public String getUsername() {
         return username;

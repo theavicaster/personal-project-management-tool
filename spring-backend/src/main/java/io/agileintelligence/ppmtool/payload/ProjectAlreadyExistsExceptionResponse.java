@@ -1,4 +1,4 @@
-package io.agileintelligence.ppmtool.exceptions;
+package io.agileintelligence.ppmtool.payload;
 
 public class ProjectAlreadyExistsExceptionResponse {
 

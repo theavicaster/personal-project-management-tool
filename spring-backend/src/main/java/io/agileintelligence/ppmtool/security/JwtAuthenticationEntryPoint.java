@@ -1,7 +1,7 @@
 package io.agileintelligence.ppmtool.security;
 
 import com.google.gson.Gson;
-import io.agileintelligence.ppmtool.exceptions.InvalidLoginResponse;
+import io.agileintelligence.ppmtool.payload.InvalidLoginResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
