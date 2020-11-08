@@ -15,6 +15,9 @@ public class Backlog {
     private Integer PTSequence = 0;
     private String projectIdentifier;
 
+    // JoinColumn means that the field "project_id" of projects table
+    // is a foreign key in backlogs table
+    // i.e there is a "project_id" COLUMN in this table
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id", nullable = false)
     @JsonIgnore
